@@ -14,7 +14,21 @@ namespace linq_csv
             string csvPath = @"D:\Projects\linq-csv\linq-csv\googleplaystore1.csv";
             var googleApps = LoadGoogleAps(csvPath);
 
-            Display(googleApps);
+            //Display(googleApps);
+            GetData(googleApps);
+        }
+
+        static void GetData(IEnumerable<GoogleApp> googleApps)
+        {
+            var highRatedApps = googleApps.Where(app => app.Rating > 4.6);
+            var highRatedBeautyApps = googleApps.Where(app => app.Rating > 4.6 && app.Category == Category.BEAUTY);
+            Display(highRatedBeautyApps);
+
+            var firstHighRatedBeautyApp = highRatedBeautyApps.FirstOrDefault(app => app.Reviews < 200);
+            // .SingleOrDefault
+            // .LastOrDefault
+            Console.WriteLine("firstHighRatedBeautyApp with less than 300 reviews");
+            Console.WriteLine(firstHighRatedBeautyApp);
         }
 
         static void Display(IEnumerable<GoogleApp> googleApps)
