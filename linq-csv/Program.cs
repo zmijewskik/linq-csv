@@ -15,7 +15,37 @@ namespace linq_csv
             var googleApps = LoadGoogleAps(csvPath);
 
             //Display(googleApps);
-            GetData(googleApps);
+            //GetData(googleApps);
+            ProjectData(googleApps);
+        }
+
+        static void ProjectData(IEnumerable<GoogleApp> googleApps)
+        {
+            var highRatedBeautyApps = googleApps.Where(app => app.Rating > 4.6 && app.Category == Category.BEAUTY);
+            var highRaterBeautyAppsNames = highRatedBeautyApps.Select(app => app.Name);
+            //Console.WriteLine(string.Join(", ", highRaterBeautyAppsNames));
+
+            var dtos = highRatedBeautyApps.Select(app => new GoogleAppDto()
+            {
+                Reviews = app.Reviews,
+                Name = app.Name
+            });
+
+            // typ anonimowy
+            var anonymousDtos = highRatedBeautyApps.Select(app => new
+            {
+                Reviews = app.Reviews,
+                Name = app.Name,
+                Category = app.Category
+            });
+
+            foreach (var dto in anonymousDtos)
+            {
+                Console.WriteLine($"{dto.Name}: {dto.Reviews}");
+            }
+
+            //var genres = highRatedBeautyApps.SelectMany(app => app.Genres);
+            //Console.WriteLine(string.Join(":", genres));
         }
 
         static void GetData(IEnumerable<GoogleApp> googleApps)
