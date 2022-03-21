@@ -20,7 +20,57 @@ namespace linq_csv
             //DivideData(googleApps);
             //OrderData(googleApps);
             //DataSetOperation(googleApps);
-            DataVerification(googleApps);
+            //DataVerification(googleApps);
+            //GroupData(googleApps);
+            GroupDataOperations(googleApps);
+        }
+
+        static void GroupDataOperations(IEnumerable<GoogleApp> googleApps)
+        {
+            var categoryGroup = googleApps
+                .GroupBy(e => e.Category);
+                //.Where(x => x.Min(y => y.Reviews >= 10));
+
+            foreach (var group in categoryGroup)
+            {
+                var avarageReviews = group.Average(g => g.Reviews);
+                var minReviews = group.Min(g => g.Reviews);
+                var maxReviews = group.Max(g => g.Reviews);
+
+                var reviewsCount = group.Sum(g => g.Reviews);
+
+                var allAppsFromGroupHaveRatingOfThree = group.All(a => a.Reviews > 3.0);
+
+                Console.WriteLine($"Category: {group.Key}");
+                Console.WriteLine($"avarageReviews: {avarageReviews}");
+                Console.WriteLine($"minReviews: {minReviews}");
+                Console.WriteLine($"maxReviews: {maxReviews}");
+                Console.WriteLine($"reviewsCount: {reviewsCount}");
+                Console.WriteLine($"allAppsFromGroupHaveRatingOfThree: {allAppsFromGroupHaveRatingOfThree}");
+                Console.WriteLine();
+            }
+        }
+
+        static void GroupData(IEnumerable<GoogleApp> googleApps)
+        {
+            var categoryGroup = googleApps.GroupBy(e => new { e.Category, e.Type });
+
+            foreach (var group in categoryGroup)
+            {
+                var apps = group.ToList();
+                Console.WriteLine($"Displaying elements for group {group.Key.Category}, {group.Key.Type}");
+                Display(apps);
+            }
+
+            //var artAndDesignGroup = categoryGroup
+            //    .First(g => g.Key == Category.ART_AND_DESIGN);
+
+            ////artAndDesignGroup.Select(e => e);
+            //var apps = artAndDesignGroup
+            //    .ToList();
+
+            //Console.WriteLine($"Displaying elements for group {artAndDesignGroup.Key}");
+            //Display(apps);
         }
 
         static void DataVerification(IEnumerable<GoogleApp> googleApps)
