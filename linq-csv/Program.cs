@@ -17,7 +17,21 @@ namespace linq_csv
             //Display(googleApps);
             //GetData(googleApps);
             //ProjectData(googleApps);
-            DivideData(googleApps);
+            //DivideData(googleApps);
+            OrderData(googleApps);
+        }
+
+        static void OrderData(IEnumerable<GoogleApp> googleApps)
+        {
+            var highRatedBeautyApps = googleApps.Where(app => app.Rating > 4.6 && app.Category == Category.BEAUTY);
+            Display(highRatedBeautyApps);
+
+            var sortedResults = highRatedBeautyApps
+                .OrderByDescending(app => app.Rating)
+                .ThenBy(app => app.Name)
+                .Take(5);
+            Console.WriteLine("Sorted highRatedBeautyApps");
+            Display(sortedResults);
         }
 
         static void DivideData(IEnumerable<GoogleApp> googleApps)
