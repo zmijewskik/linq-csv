@@ -16,7 +16,40 @@ namespace linq_csv
 
             //Display(googleApps);
             //GetData(googleApps);
-            ProjectData(googleApps);
+            //ProjectData(googleApps);
+            DivideData(googleApps);
+        }
+
+        static void DivideData(IEnumerable<GoogleApp> googleApps)
+        {
+            var highRatedBeautyApps = googleApps.Where(app => app.Rating > 4.6 && app.Category == Category.BEAUTY);
+
+            //var first5HighRatedBeautyApps = new List<GoogleApp>();
+            //foreach (var app in highRatedBeautyApps)
+            //{
+            //    first5HighRatedBeautyApps.Add(app);
+            //    if (first5HighRatedBeautyApps.Count == 5)
+            //    {
+            //        break;
+            //    }
+            //}
+
+            //// first 5
+            //var first5HighRatedBeautyApps = highRatedBeautyApps.Take(5);
+
+            //// last 5
+            //var last5HighRatedBeautyApps = highRatedBeautyApps.TakeLast(5);
+
+            //Display(first5HighRatedBeautyApps);
+            //Display(last5HighRatedBeautyApps);
+
+            var firstHighRatedBeautyAppsWith1kRating = highRatedBeautyApps.TakeWhile(app => app.Reviews > 1000);
+            Display(firstHighRatedBeautyAppsWith1kRating);
+
+            //var skippedResults = highRatedBeautyApps.Skip(5);
+            var skippedResults = highRatedBeautyApps.SkipWhile(app => app.Reviews > 1000);
+            Console.WriteLine("Skipped results");
+            Display(skippedResults);
         }
 
         static void ProjectData(IEnumerable<GoogleApp> googleApps)
