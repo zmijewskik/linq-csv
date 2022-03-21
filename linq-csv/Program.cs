@@ -19,7 +19,21 @@ namespace linq_csv
             //ProjectData(googleApps);
             //DivideData(googleApps);
             //OrderData(googleApps);
-            DataSetOperation(googleApps);
+            //DataSetOperation(googleApps);
+            DataVerification(googleApps);
+        }
+
+        static void DataVerification(IEnumerable<GoogleApp> googleApps)
+        {
+            var allOperatorResult = googleApps.Where(a => a.Category == Category.WEATHER)
+                .All(a => a.Reviews > 10);
+
+            Console.WriteLine(allOperatorResult);
+
+            var anyOperatorResult = googleApps.Where(a => a.Category == Category.WEATHER)
+                .Any(a => a.Reviews > 2_000_000);
+
+            Console.WriteLine(anyOperatorResult);
         }
 
         static void DataSetOperation(IEnumerable<GoogleApp> googleApps)
